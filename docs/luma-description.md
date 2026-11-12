@@ -1,6 +1,6 @@
 # Suggested Luma description
 
-A cleaned-up version of the event page that matches this repo (five tracks, the current agenda). Replace `<REPO URL>` once the repo is public.
+A cleaned-up version of the event page that matches this repo (five tracks, the current agenda). Replace `https://github.com/sergeicu/trust-safety-impact-lab` once the repo is public.
 
 ---
 
@@ -20,7 +20,7 @@ This Claude Impact Lab is a one-hour micro-hack on trust and safety. Three short
 - Privacy: what surveillance tech covers the Bay Area, and where the data goes
 - Personal Safety: tell real from fake in the age of AI scams and deepfakes
 
-Every track comes with curated public datasets and step-by-step instructions written for coding agents: <REPO URL>
+Every track comes with curated public datasets and step-by-step instructions written for coding agents: https://github.com/sergeicu/trust-safety-impact-lab
 
 **Agenda**
 

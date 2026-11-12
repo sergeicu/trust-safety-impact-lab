@@ -37,7 +37,7 @@ Every track file has the same shape: the concern, starter challenges sized for o
 ## Quick start
 
 ```bash
-git clone <this-repo> && cd <this-repo>
+git clone https://github.com/sergeicu/trust-safety-impact-lab.git && cd trust-safety-impact-lab
 export ANTHROPIC_API_KEY=...        # credits are handed out at the event
 
 python scripts/fetch.py --list       # every dataset in the catalog
