@@ -1,0 +1,720 @@
+{
+  "checked_on": "2026-11-12",
+  "note": "checked=true means the source page was opened and read on the date above (URL, license and structure as listed). checked=false means the entry comes from the dataset's paper or common knowledge of the field and was not re-opened that day; open the URL before relying on details. Column hints are hints: print the header first.",
+  "datasets": [
+    {
+      "id": "llmail-inject",
+      "tracks": [
+        1
+      ],
+      "name": "LLMail-Inject (Microsoft): adaptive prompt-injection attacks on an email assistant",
+      "url": "https://huggingface.co/datasets/microsoft/llmail-inject-challenge",
+      "license": "MIT",
+      "format": "JSON / Parquet; splits Phase1 (~371k rows) and Phase2 (~91k rows)",
+      "columns_hint": [
+        "subject",
+        "body",
+        "scenario",
+        "objectives",
+        "output",
+        "team_id"
+      ],
+      "notes": "Each row is an attacker-written email. `objectives` is a JSON string of flags such as email.retrieved, defense.undetected, exfil.sent that say how far the attack got. Paper: arXiv 2506.09956. Analysis code: github.com/microsoft/llmail-inject-challenge-analysis.",
+      "checked": true,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "microsoft/llmail-inject-challenge",
+        "config": "default",
+        "split": "Phase1",
+        "rows": 500
+      }
+    },
+    {
+      "id": "injecagent",
+      "tracks": [
+        1
+      ],
+      "name": "InjecAgent: 1,054 indirect prompt-injection test cases for tool-using agents",
+      "url": "https://github.com/uiuc-kang-lab/InjecAgent",
+      "license": "See repository",
+      "format": "JSON test cases in the repo's data/ folder (17 user tools, 62 attacker tools)",
+      "notes": "Single-turn cases: a user task, a tool response containing an injected instruction, and the attacker's goal (direct harm or data stealing). Easy to replay against your own guard. Paper: arXiv 2403.02691.",
+      "checked": false,
+      "fetch": {
+        "type": "git",
+        "repo": "https://github.com/uiuc-kang-lab/InjecAgent.git"
+      }
+    },
+    {
+      "id": "agentdojo",
+      "tracks": [
+        1
+      ],
+      "name": "AgentDojo: dynamic environment for agent prompt-injection attacks and defenses",
+      "url": "https://github.com/ethz-spylab/agentdojo",
+      "license": "See repository",
+      "format": "Python package with four suites: workspace (email/calendar), travel, banking, slack",
+      "notes": "Heavier than the others: budget 15 minutes for setup. Use it if you want a full agent loop with tools. Docs: https://agentdojo.spylab.ai. Paper: arXiv 2406.13352.",
+      "checked": false,
+      "fetch": {
+        "type": "manual",
+        "instructions": "pip install agentdojo  (then follow https://agentdojo.spylab.ai)"
+      }
+    },
+    {
+      "id": "deepset-prompt-injections",
+      "tracks": [
+        1
+      ],
+      "name": "deepset/prompt-injections: small labeled set of injection vs. benign prompts",
+      "url": "https://huggingface.co/datasets/deepset/prompt-injections",
+      "license": "Apache-2.0 (confirm on the dataset card)",
+      "format": "A few hundred rows with text and a 0/1 label",
+      "notes": "Good as a quick benign/attack sanity set and as a source of benign text for false-positive checks.",
+      "checked": false,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "deepset/prompt-injections",
+        "rows": 500
+      }
+    },
+    {
+      "id": "agentharm",
+      "tracks": [
+        1
+      ],
+      "name": "AgentHarm (UK AI Security Institute): harmful multi-step agent tasks with benign counterparts",
+      "url": "https://huggingface.co/datasets/ai-safety-institute/AgentHarm",
+      "license": "See dataset card (may require accepting terms)",
+      "format": "JSON behaviors with tool definitions",
+      "notes": "Use to check that an agent refuses harmful tool-use tasks while still completing the matched benign ones.",
+      "checked": false,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the dataset card, accept terms if asked, then: from datasets import load_dataset; load_dataset('ai-safety-institute/AgentHarm', 'harmful')"
+      }
+    },
+    {
+      "id": "nhtsa-sgo-ads",
+      "tracks": [
+        3
+      ],
+      "name": "NHTSA Standing General Order crash reports: Automated Driving Systems (current file, June 16 2025 onward)",
+      "url": "https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting",
+      "license": "US government public data",
+      "format": "CSV, one row per report version; monthly updates",
+      "columns_hint": [
+        "Report ID",
+        "Reporting Entity",
+        "City",
+        "State",
+        "Incident Date",
+        "Crash With",
+        "Highest Injury Severity Alleged",
+        "Narrative"
+      ],
+      "notes": "Filter State == CA and City == San Francisco. The same crash can appear several times (report versions, multiple reporting entities): de-duplicate before counting. Some narratives are redacted as confidential business information. Reports are unverified and there is no mileage denominator. Read the data dictionary PDF first.",
+      "checked": true,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://static.nhtsa.gov/odi/ffdd/sgo-2021-01/SGO-2021-01_Incident_Reports_ADS.csv",
+          "https://static.nhtsa.gov/odi/ffdd/sgo-2021-01/SGO-2021-01_Data_Element_Definitions.pdf"
+        ]
+      }
+    },
+    {
+      "id": "nhtsa-sgo-ads-archive",
+      "tracks": [
+        3
+      ],
+      "name": "NHTSA SGO crash reports: ADS archive (2021 to June 15 2025)",
+      "url": "https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting",
+      "license": "US government public data",
+      "format": "CSV",
+      "notes": "Older schema than the current file; column names differ. Combine with care.",
+      "checked": true,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://static.nhtsa.gov/odi/ffdd/sgo-2021-01/Archive-2021-2025/SGO-2021-01_Incident_Reports_ADS.csv",
+          "https://static.nhtsa.gov/odi/ffdd/sgo-2021-01/Archive-2021-2025/SGO-2021-01_Data_Element_Definitions.pdf"
+        ]
+      }
+    },
+    {
+      "id": "nhtsa-sgo-adas",
+      "tracks": [
+        3
+      ],
+      "name": "NHTSA SGO crash reports: Level 2 driver assistance (ADAS)",
+      "url": "https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting",
+      "license": "US government public data",
+      "format": "CSV",
+      "notes": "Driver-assist systems in consumer cars, not robotaxis. Reporting criteria differ from ADS, so do not compare counts directly.",
+      "checked": true,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://static.nhtsa.gov/odi/ffdd/sgo-2021-01/SGO-2021-01_Incident_Reports_ADAS.csv"
+        ]
+      }
+    },
+    {
+      "id": "ca-av-collisions-zenodo",
+      "tracks": [
+        3
+      ],
+      "name": "Augmented dataset of autonomous vehicle collisions in California, 2019–2024",
+      "url": "https://zenodo.org/records/15937591",
+      "license": "CC BY 4.0",
+      "format": "One CSV, about 670 kB",
+      "notes": "Researchers turned the CA DMV collision report PDFs into a table and added GIS and LLM-extracted fields. The fastest way to get structured California AV collision data. Ends Dec 31 2024.",
+      "checked": true,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://zenodo.org/records/15937591/files/CA_AV_Collision_2019-2024.csv?download=1"
+        ],
+        "filenames": [
+          "CA_AV_Collision_2019-2024.csv"
+        ]
+      }
+    },
+    {
+      "id": "ca-dmv-collision-reports",
+      "tracks": [
+        3
+      ],
+      "name": "California DMV autonomous vehicle collision reports (form OL 316)",
+      "url": "https://www.dmv.ca.gov/portal/vehicle-industry-services/autonomous-vehicles/autonomous-vehicle-collision-reports/",
+      "license": "California public records",
+      "format": "One PDF per collision, listed by company and date (2019 onward)",
+      "notes": "Covers vehicles under testing permits. Use for 2025–2026 reports that the Zenodo table does not cover: download 5–10 PDFs and extract with Claude.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the page, pick recent PDFs, save to data/ca-dmv-collision-reports/."
+      }
+    },
+    {
+      "id": "ca-dmv-disengagements",
+      "tracks": [
+        3
+      ],
+      "name": "California DMV autonomous vehicle disengagement and mileage reports",
+      "url": "https://www.dmv.ca.gov/portal/vehicle-industry-services/autonomous-vehicles/disengagement-reports/",
+      "license": "California public records",
+      "format": "CSV per year (disengagements and mileage; separate files for driverless testing)",
+      "notes": "Testing permits only: deployment-permit operations do not file disengagement reports, so commercial robotaxi service is largely absent. Free-text cause descriptions are good material for Claude to categorise.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the page and download the most recent year's Disengagement and Mileage CSVs."
+      }
+    },
+    {
+      "id": "cpuc-av-quarterly",
+      "tracks": [
+        3
+      ],
+      "name": "CPUC autonomous vehicle program quarterly reports",
+      "url": "https://www.cpuc.ca.gov/regulatory-services/licensing/transportation-licensing-and-analysis-branch/autonomous-vehicle-programs/quarterly-reporting",
+      "license": "California public records",
+      "format": "Zip of spreadsheets per quarter and carrier; some cells redacted",
+      "notes": "Passenger-service operations: trips, miles, wait times, wheelchair-accessible rides, complaints and incidents depending on the reporting period. This is where you get denominators (miles, trips).",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the page, use 'Download all reports' for the latest deployment-program quarter."
+      }
+    },
+    {
+      "id": "waymo-safety-hub",
+      "tracks": [
+        3
+      ],
+      "name": "Waymo Safety Impact hub downloads",
+      "url": "https://waymo.com/safety/impact/",
+      "license": "See site terms",
+      "format": "CSV downloads: rider-only miles and crash data by city, plus human benchmarks",
+      "notes": "Company-published. Built on the company's own NHTSA SGO reports plus miles driven by city (San Francisco included). Useful as the denominator and as the claim to check against the raw NHTSA file.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Scroll to the download section of the page and save the CSVs."
+      }
+    },
+    {
+      "id": "sf-311-cases",
+      "tracks": [
+        3
+      ],
+      "name": "DataSF: 311 Cases (resident service requests since 2008)",
+      "url": "https://data.sfgov.org/d/vw6y-z8j6",
+      "license": "ODC PDDL 1.0 (public domain)",
+      "format": "Socrata API; millions of rows, so always query",
+      "columns_hint": [
+        "service_request_id",
+        "requested_datetime",
+        "service_name",
+        "service_subtype",
+        "service_details",
+        "address",
+        "lat",
+        "long"
+      ],
+      "notes": "The city takes autonomous vehicle incident reports through 311 (sf.gov/report-autonomous-vehicle-incidents). Whether and how those appear in the open dataset needs checking: start with a full-text query and with SELECT DISTINCT on the service fields. The default fetch pulls the 2,000 most recent rows matching 'autonomous'.",
+      "checked": true,
+      "fetch": {
+        "type": "socrata",
+        "domain": "data.sfgov.org",
+        "resource": "vw6y-z8j6",
+        "params": {
+          "$q": "autonomous",
+          "$order": "requested_datetime DESC",
+          "$limit": "2000"
+        }
+      }
+    },
+    {
+      "id": "sf-traffic-crashes",
+      "tracks": [
+        3
+      ],
+      "name": "DataSF: Traffic Crashes Resulting in Injury",
+      "url": "https://data.sfgov.org/d/ubvf-ztfx",
+      "license": "ODC PDDL 1.0 (public domain)",
+      "format": "Socrata API / CSV export",
+      "notes": "All police-reported injury crashes in the city: the human-driver baseline, by location and time. Companion tables cover parties and victims.",
+      "checked": true,
+      "fetch": {
+        "type": "socrata",
+        "domain": "data.sfgov.org",
+        "resource": "ubvf-ztfx",
+        "params": {
+          "$order": ":id DESC",
+          "$limit": "5000"
+        }
+      }
+    },
+    {
+      "id": "sf-sidewalk-robot-rules",
+      "tracks": [
+        3
+      ],
+      "name": "SF Public Works: Autonomous Delivery Device permit program (Public Works Code Sec. 794)",
+      "url": "https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_publicworks/0-0-0-48516",
+      "license": "Public law",
+      "format": "Code text and permit documents (HTML/PDF)",
+      "notes": "Rules for sidewalk delivery robots: testing permits only, at most three devices per permittee and nine citywide, 180-day permits. Source text for a rules-as-code or 'is this robot allowed here?' challenge. No incident dataset exists, which is itself a finding.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL and copy Sec. 794 into data/sf-sidewalk-robot-rules/sec794.txt."
+      }
+    },
+    {
+      "id": "eff-atlas-of-surveillance",
+      "tracks": [
+        4
+      ],
+      "name": "EFF Atlas of Surveillance: which US police agencies use which surveillance technology",
+      "url": "https://atlasofsurveillance.org/data-library",
+      "license": "CC BY (see eff.org/copyright)",
+      "format": "One CSV, one row per agency-technology pair, with source links",
+      "columns_hint": [
+        "City",
+        "County",
+        "State",
+        "Agency",
+        "Technology",
+        "Vendor",
+        "Summary"
+      ],
+      "notes": "Filter State == CA and the Bay Area counties. Open-source research, not an official inventory. Device locations are deliberately not included.",
+      "checked": true,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://atlasofsurveillance.org/download.csv"
+        ],
+        "filenames": [
+          "atlas_of_surveillance.csv"
+        ]
+      }
+    },
+    {
+      "id": "sf-surveillance-inventory",
+      "tracks": [
+        4
+      ],
+      "name": "San Francisco Surveillance Technology Inventory and policies (Admin Code Chapter 19B)",
+      "url": "https://www.sf.gov/surveillance-technology-inventory",
+      "license": "Public records",
+      "format": "Web page linking one policy PDF and one impact report PDF per department and technology; biannual inventory report PDFs",
+      "notes": "The city's own list: license plate readers, cameras, drones, audio sensors and more, by department, with the approved use policy for each. Biannual reports: https://www.sf.gov/biannual-surveillance-technology-inventory-reports. Pick 5–10 policies and extract retention, sharing and audit rules with Claude.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL, download a handful of policy PDFs into data/sf-surveillance-inventory/."
+      }
+    },
+    {
+      "id": "eff-ca-alpr",
+      "tracks": [
+        4
+      ],
+      "name": "EFF Data Driven 2: California Dragnet (license plate reader data from 89 agencies)",
+      "url": "https://www.eff.org/document/data-driven-2-california-dragnet-data-set",
+      "license": "CC BY (see eff.org/copyright)",
+      "format": "Spreadsheet",
+      "notes": "Scans versus hits per agency: how much plate collection relates to an active investigation. Released 2021, so treat as historical.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL and download the spreadsheet."
+      }
+    },
+    {
+      "id": "nemotron-pii",
+      "tracks": [
+        4
+      ],
+      "name": "NVIDIA Nemotron-PII: synthetic documents with span-level PII/PHI labels",
+      "url": "https://huggingface.co/datasets/nvidia/Nemotron-PII",
+      "license": "CC BY 4.0",
+      "format": "Text with labeled entity spans",
+      "notes": "Fully synthetic, so safe to show on screen. Use as the test set for a redaction layer. Announcement: https://huggingface.co/blog/nvidia/nemotron-pii. Confirm the repo id on the blog page if the fetch fails.",
+      "checked": false,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "nvidia/Nemotron-PII",
+        "rows": 300
+      }
+    },
+    {
+      "id": "ftc-consumer-sentinel",
+      "tracks": [
+        5
+      ],
+      "name": "FTC Consumer Sentinel Network data (fraud, identity theft and other reports)",
+      "url": "https://www.ftc.gov/exploredata",
+      "license": "US government public data",
+      "format": "Annual Data Book zip of CSVs (around 100 kB) plus quarterly Tableau dashboards by state and metro area",
+      "notes": "Aggregates only, no individual reports. Reports are unverified and self-selected. Find the latest Data Book 'Data Files (Zip archive, CSV files)' link from the page. Metro-area tables include San Francisco-Oakland-Berkeley.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL, go to the Consumer Sentinel Network Data Book page for the latest year, download the CSV zip."
+      }
+    },
+    {
+      "id": "uci-sms-spam",
+      "tracks": [
+        5
+      ],
+      "name": "UCI SMS Spam Collection (5,574 labeled SMS messages)",
+      "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+      "license": "CC BY 4.0",
+      "format": "Tab-separated text: label, message",
+      "notes": "Old (2012) and mostly UK/Singapore messages, so it under-represents current scams. Good for a fast baseline and for benign 'ham' text.",
+      "checked": false,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip"
+        ],
+        "filenames": [
+          "sms_spam_collection.zip"
+        ]
+      }
+    },
+    {
+      "id": "phishing-multi",
+      "tracks": [
+        5
+      ],
+      "name": "ealvaradob/phishing-dataset: emails, SMS, URLs and web pages labeled phishing or benign",
+      "url": "https://huggingface.co/datasets/ealvaradob/phishing-dataset",
+      "license": "See dataset card",
+      "format": "JSON files per type (texts, urls, webs, combined_reduced), columns text and label",
+      "notes": "The dataset ships a loading script that current versions of the `datasets` library refuse to run. Download the JSON files directly from the 'Files' tab instead. The SMS portion separates spam from smishing.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL, 'Files and versions', download texts.json (emails + SMS) or combined_reduced.json."
+      }
+    },
+    {
+      "id": "aegis-2",
+      "tracks": [
+        1
+      ],
+      "name": "NVIDIA Aegis 2.0 / Nemotron Content Safety Dataset V2",
+      "url": "https://huggingface.co/datasets/nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+      "license": "CC BY 4.0",
+      "format": "33,416 human-LLM interactions (30,007 train / 1,445 validation / 1,964 test) with prompt and response safety labels and violated categories",
+      "notes": "Contains explicit harmful text. Use the test split to score a guardrail. May ask you to log in to Hugging Face; set HF_TOKEN if the fetch is refused.",
+      "checked": true,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "nvidia/Aegis-AI-Content-Safety-Dataset-2.0",
+        "split": "test",
+        "rows": 300
+      }
+    },
+    {
+      "id": "jbb-behaviors",
+      "tracks": [
+        1
+      ],
+      "name": "JailbreakBench JBB-Behaviors: 100 harmful and 100 matched benign behaviors in ten categories",
+      "url": "https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors",
+      "license": "MIT (confirm on the dataset card)",
+      "format": "CSV: Behavior, Goal, Target, Category, Source",
+      "notes": "Small enough to run in full. The benign half is what lets you measure over-refusal. Contains requests, not harmful answers.",
+      "checked": false,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "JailbreakBench/JBB-Behaviors",
+        "config": "behaviors",
+        "rows": 200
+      }
+    },
+    {
+      "id": "toxic-chat",
+      "tracks": [
+        1
+      ],
+      "name": "lmsys/toxic-chat: real user prompts to a chatbot, labeled for toxicity and jailbreaking",
+      "url": "https://huggingface.co/datasets/lmsys/toxic-chat",
+      "license": "CC BY-NC 4.0 (confirm on the dataset card)",
+      "format": "About 10k rows: user_input, model_output, toxicity, jailbreaking",
+      "notes": "Real-world distribution: most rows are benign, which makes it good for false-positive rates.",
+      "checked": false,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "lmsys/toxic-chat",
+        "rows": 500
+      }
+    },
+    {
+      "id": "anthropic-discrim-eval",
+      "tracks": [
+        1
+      ],
+      "name": "Anthropic discrim-eval: decision prompts varied by age, gender and race",
+      "url": "https://huggingface.co/datasets/Anthropic/discrim-eval",
+      "license": "See dataset card",
+      "format": "Templated yes/no decision scenarios (loans, housing, hiring and others) with demographic fields",
+      "notes": "Run a slice through a model and compare the yes-rate across demographic variants of the same scenario.",
+      "checked": true,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "Anthropic/discrim-eval",
+        "rows": 500
+      }
+    },
+    {
+      "id": "petri-bloom",
+      "tracks": [
+        1
+      ],
+      "name": "Petri and Bloom: open-source automated behavioral auditing and evaluation tools",
+      "url": "https://github.com/safety-research/bloom",
+      "license": "MIT (see repositories)",
+      "format": "Python tools. Petri: github.com/safety-research/petri. Bloom: github.com/safety-research/bloom. Combined docs: https://meridianlabs-ai.github.io/petri_bloom/",
+      "notes": "Bloom takes a behavior description (for example sycophancy) and generates scenarios, runs them against a target model and scores how often the behavior appears. Petri explores broadly with an auditor agent. Advanced option: setup can eat 20 minutes and runs cost API credits. Keep to 10–20 scenarios.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "pip install git+https://github.com/safety-research/bloom.git && bloom init"
+      }
+    },
+    {
+      "id": "ai-incident-database",
+      "tracks": [
+        5,
+        0
+      ],
+      "name": "AI Incident Database (AIID) weekly snapshots",
+      "url": "https://incidentdatabase.ai/research/snapshots/",
+      "license": "See site terms of use",
+      "format": "Weekly tar.bz2 (about 120 MB; JSON, CSV and MongoDB dumps) and a small weekly Excel export (about 3 MB)",
+      "notes": "Press-reported incidents of AI causing or nearly causing harm, each with linked reports. Take the Excel export for speed. Not a census: coverage follows media attention.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL and download the latest AIID_Excel_Export-YYYYMMDD.xlsx (small) or backup-*.tar.bz2 (full)."
+      }
+    },
+    {
+      "id": "mit-ai-risk-repository",
+      "tracks": [
+        5,
+        0
+      ],
+      "name": "MIT AI Risk Repository and AI Incident Tracker",
+      "url": "https://airisk.mit.edu/",
+      "license": "See site (CC BY 4.0 stated for the repository)",
+      "format": "Spreadsheet of AI risks coded by a causal taxonomy and a domain taxonomy (7 domains, 23 subdomains); dashboards classifying AIID incidents",
+      "notes": "Use the taxonomy as the label set when classifying incidents or the room's concerns. Incident tracker: https://airisk.mit.edu/ai-incident-tracker",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL, use the 'copy the Google Sheet / download' link for the repository."
+      }
+    },
+    {
+      "id": "anthropic-interviewer",
+      "tracks": [
+        0
+      ],
+      "name": "Anthropic Interviewer: 1,250 interview transcripts on how professionals use and feel about AI",
+      "url": "https://huggingface.co/datasets/Anthropic/AnthropicInterviewer",
+      "license": "Data CC BY, code MIT (per dataset card)",
+      "format": "CSV, about 11 MB. Splits: workforce (1,000), creatives (125), scientists (125). Columns: transcript_id, text",
+      "notes": "Participants consented to public release. Long transcripts (5k–27k characters): sample 50–100 and have Claude extract trust and safety concerns.",
+      "checked": true,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "Anthropic/AnthropicInterviewer",
+        "config": "AnthropicInterviewer",
+        "split": "workforce",
+        "rows": 100
+      }
+    },
+    {
+      "id": "anthropic-values-in-the-wild",
+      "tracks": [
+        0
+      ],
+      "name": "Anthropic values-in-the-wild: taxonomy and frequencies of values Claude expressed in real conversations",
+      "url": "https://huggingface.co/datasets/Anthropic/values-in-the-wild",
+      "license": "See dataset card",
+      "format": "CSV: about 3k values with frequencies and a hierarchical taxonomy",
+      "notes": "Aggregates only, no conversations. Useful as a vocabulary for 'what should an AI system value in situation X'. Paper: arXiv 2504.15236.",
+      "checked": true,
+      "fetch": {
+        "type": "hf_rows",
+        "dataset": "Anthropic/values-in-the-wild",
+        "rows": 500
+      }
+    },
+    {
+      "id": "sfpd-incident-reports",
+      "tracks": [
+        5
+      ],
+      "name": "DataSF: Police Department Incident Reports, 2018 to present",
+      "url": "https://data.sfgov.org/d/wg3w-h783",
+      "license": "ODC PDDL 1.0 (public domain)",
+      "format": "Socrata API / CSV export; updated daily",
+      "columns_hint": [
+        "incident_datetime",
+        "incident_category",
+        "incident_subcategory",
+        "analysis_neighborhood",
+        "police_district",
+        "resolution"
+      ],
+      "notes": "Reports filed by officers or self-reported online. One incident can have several rows (multiple incident codes): read the dataset explainer before counting (https://sfdigitalservices.gitbook.io/dataset-explainers/sfpd-incident-report-2018-to-present). Aggregate by neighborhood and month; do not plot individual incidents.",
+      "checked": true,
+      "fetch": {
+        "type": "socrata",
+        "domain": "data.sfgov.org",
+        "resource": "wg3w-h783",
+        "params": {
+          "$select": "analysis_neighborhood,incident_category,date_trunc_ym(incident_datetime) as month,count(*) as n",
+          "$group": "analysis_neighborhood,incident_category,month",
+          "$where": "incident_datetime > '2025-01-01T00:00:00'",
+          "$limit": "50000"
+        }
+      }
+    },
+    {
+      "id": "amongus-sandbox",
+      "tracks": [
+        2
+      ],
+      "name": "Among Us: a sandbox for measuring and detecting agentic deception",
+      "url": "https://github.com/7vik/AmongUs",
+      "license": "See repository (research use; the game IP belongs to Innersloth)",
+      "format": "Python sandbox plus logs of 400 complete LLM-agent games and 2,054 game summaries",
+      "notes": "LLM agents play a text version of the social-deduction game: impostors deceive, crewmates detect. Use the published logs to build and score a detector without running any games. Paper: arXiv 2504.04072.",
+      "checked": true,
+      "fetch": {
+        "type": "git",
+        "repo": "https://github.com/7vik/AmongUs.git"
+      }
+    },
+    {
+      "id": "agentic-misalignment",
+      "tracks": [
+        2
+      ],
+      "name": "Anthropic agentic-misalignment framework",
+      "url": "https://github.com/anthropic-experimental/agentic-misalignment",
+      "license": "MIT",
+      "format": "Python framework: fictional corporate scenarios, prompt generation, experiment runner, classifiers",
+      "notes": "Scenarios in which a model with a goal and access to email faces replacement or a goal conflict. Useful as a source of 'agent turns against its principal' transcripts for a monitor to read. Runs cost API credits; keep samples small. Paper: arXiv 2510.05179.",
+      "checked": true,
+      "fetch": {
+        "type": "git",
+        "repo": "https://github.com/anthropic-experimental/agentic-misalignment.git"
+      }
+    },
+    {
+      "id": "cisa-kev",
+      "tracks": [
+        1
+      ],
+      "name": "CISA Known Exploited Vulnerabilities catalog",
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "license": "CC0",
+      "format": "One JSON and one CSV file, one row per CVE: vendor, product, dateAdded, dueDate, ransomware flag. Mirror: github.com/cisagov/kev-data",
+      "notes": "The authoritative US list of vulnerabilities exploited in the wild. Join with CVE publication dates to measure disclosure-to-exploitation time. Defensive analysis only.",
+      "checked": true,
+      "fetch": {
+        "type": "http",
+        "urls": [
+          "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+          "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.csv"
+        ]
+      }
+    },
+    {
+      "id": "ai-agent-index",
+      "tracks": [
+        0
+      ],
+      "name": "MIT AI Agent Index (2025 edition)",
+      "url": "https://aiagentindex.mit.edu",
+      "license": "See site",
+      "format": "Structured documentation of 30 deployed AI agents: origins, design, capabilities, ecosystem, safety features",
+      "notes": "Documents what agent developers disclose and what they do not. Source for a 'safety label' or disclosure-gap scorer. Paper: arXiv 2602.17753.",
+      "checked": true,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL and download or copy the per-agent data."
+      }
+    },
+    {
+      "id": "c2pa-tools",
+      "tracks": [
+        5
+      ],
+      "name": "C2PA / Content Credentials open-source tools",
+      "url": "https://github.com/contentauth",
+      "license": "See repositories (Apache-2.0 / MIT)",
+      "format": "Command-line tool (c2patool) and SDKs for reading and writing provenance manifests in images and video",
+      "notes": "Tooling, not a dataset: collect your own test images. Most images online carry no credentials, and absence proves nothing.",
+      "checked": false,
+      "fetch": {
+        "type": "manual",
+        "instructions": "Open the URL; install c2patool from the contentauth organization, or use its Python or JavaScript SDK."
+      }
+    }
+  ]
+}
